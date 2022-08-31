@@ -6,6 +6,9 @@ In current example we will learn how to set up GO Relayer v2 between two cosmos 
 Before setting up relayer you need to make sure you already have:
 1. Fully synchronized RPC nodes for each Cosmos project you want to connect
 2. RPC enpoints should be exposed and available from relayer instance
+
+Or optionally you can use an available RPC endpoints.
+
 #### RPC configuration is located in `config.toml` file
 ```
 # STRIDE
@@ -13,8 +16,6 @@ laddr = "tcp://0.0.0.0:16657" in $HOME/.stride/config/config.toml
 # GAIA
 laddr = "tcp://0.0.0.0:23657" in $HOME/.gaia/config/config.toml  
 ```
-
-Or optionally you can use an available RPC endpoint.
 
 3. Indexing is set to `kv` and is enabled on each node
 ```
@@ -31,18 +32,8 @@ sed -i -e "s/^indexer *=.*/indexer = \"kv\"/" $HOME/.gaia/config/config.toml
 All settings below are just example for IBC Relayer between `STRIDE-TESTNET-4` and `GAIA` testnets. Please fill with your own values.
 ```
 RELAYER_ID='openbitlab#9650' # add your Discord username here
-```
-
-### STRIDE
-```
-STRIDE_RPC_ADDR='<YOUR_STRIDE_RPC_ADDR>:<YOUR_STRIDE_RPC_PORT>' # Example: '127.0.0.1:16657'
-STRIDE_MNEMONIC='your mnemonic goes here'
-```
-
-### GAIA
-```
-GAIA_RPC_ADDR='<YOUR_GAIA_RPC_ADDR>:<YOUR_GAIA_RPC_PORT>' # Example: '127.0.0.1:21657'
-GAIA_MNEMONIC='your mnemonic goes here'
+STRIDE_RPC_ADDR='127.0.0.1:16657'    # use your own or an available Stride RPC enpoint here
+GAIA_RPC_ADDR='127.0.0.1:23657'      # use your own or an available Gaia RPC enpoint here
 ```
 
 ## Update system
@@ -123,8 +114,8 @@ EOF
 
 ## Load chain configuration into the relayer
 ```
-rly chains add --file=$HOME/.relayer/stride.json stride
-rly chains add --file=$HOME/.relayer/gaia.json gaia
+rly chains add --file=$HOME/.relayer/chains/stride.json stride
+rly chains add --file=$HOME/.relayer/chains/gaia.json gaia
 ```
 
 Check chains added to relayer
@@ -140,8 +131,8 @@ Successful output:
 
 ## Load wallets into the relayer
 ```
-rly keys restore stride wallet "${STRIDE_MNEMONIC}"
-rly keys restore gaia wallet "${GAIA_MNEMONIC}"
+rly keys restore stride wallet "your stride wallet mnemonic goes here"
+rly keys restore gaia wallet "your gaia wallet mnemonic goes here"
 ```
 
 Check wallet balance
@@ -171,12 +162,6 @@ paths:
              - channel-2
              - channel-3
              - channel-4 
-```
-
-## Update relayer memo with your discord account
-```
-sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.23.1/yq_linux_amd64 && chmod +x /usr/local/bin/yq
-yq -i ".global.memo = \"$RELAYER_ID\"" $HOME/.relayer/config/config.yaml
 ```
 
 Check path is correct
@@ -222,6 +207,6 @@ systemctl start relayerd
 journalctl -u relayerd -f -o cat
 ```
 
-Check your wallet transaction in explorer to find the GO v2 Relayer Update Client(IBC) message:
+Check your wallet transaction in explorer to find the GO v2 Relayer transactions:
 
 ![image](https://user-images.githubusercontent.com/35404870/187739467-a5289447-0198-4810-b4f5-4888bb8878e5.png)
