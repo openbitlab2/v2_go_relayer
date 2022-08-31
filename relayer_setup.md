@@ -28,7 +28,7 @@ sed -i -e "s/^indexer *=.*/indexer = \"kv\"/" $HOME/.gaia/config/config.toml
 5. For each chain you will need to have wallets that are funded with tokens. This wallets will be used to do all relayer stuff
 
 ## Set up variables
-All settings below are just example for IBC Relayer between `STRIDE-TESTNET-2` and `GAIA` testnets. Please fill with your own values.
+All settings below are just example for IBC Relayer between `STRIDE-TESTNET-4` and `GAIA` testnets. Please fill with your own values.
 ```
 RELAYER_ID='openbitlab#9650' # add your Discord username here
 ```
@@ -80,7 +80,7 @@ sudo tee $HOME/.relayer/stride.json > /dev/null <<EOF
   "type": "cosmos",
   "value": {
     "key": "wallet",
-    "chain-id": "STRIDE-TESTNET-2",
+    "chain-id": "STRIDE-TESTNET-4",
     "rpc-addr": "http://${STRIDE_RPC_ADDR}",
     "account-prefix": "stride",
     "keyring-backend": "test",
@@ -131,7 +131,7 @@ rly chains list
 Successful output:
 ```
 1: GAIA             -> type(cosmos) key(✘) bal(✘) path(✘)
-2: STRIDE-TESTNET-2 -> type(cosmos) key(✘) bal(✘) path(✘)
+2: STRIDE-TESTNET-4 -> type(cosmos) key(✘) bal(✘) path(✘)
 ```
 
 ## Load wallets into the relayer
@@ -146,13 +146,13 @@ rly q balance stride
 rly q balance gaia
 ```
 
-## Add path for STRIDE-TESTNET-2 and GAIA to relayer configuration file
+## Add path for STRIDE-TESTNET-4 and GAIA to relayer configuration file
 Open `$HOME/.relayer/config/config.yaml` file and replace `paths: {}` with:
 ```
 paths:
     stride-gaia:
         src:
-            chain-id: STRIDE-TESTNET-2
+            chain-id: STRIDE-TESTNET-4
             client-id: 07-tendermint-0
             connection-id: connection-0
         dst:
@@ -182,7 +182,7 @@ rly paths list
 
 Successful output:
 ```
-0: stride-gaia -> chns(✔) clnts(✔) conn(✔) (STRIDE-TESTNET-2<>GAIA)
+0: stride-gaia -> chns(✔) clnts(✔) conn(✔) (STRIDE-TESTNET-4<>GAIA)
 ```
 If everything is correct, we can proceed with relayer service creation
 
