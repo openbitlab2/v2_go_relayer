@@ -69,7 +69,9 @@ fi
 git clone https://github.com/cosmos/relayer.git
 cd relayer && git checkout v2.0.0-rc4
 make install
-rly config init
+rly config init --memo $RELAYER_ID
+sudo mkdir $HOME/.relayer/chains
+sudo mkdir $HOME/.relayer/paths
 ```
 
 ## Create relayer configuration files
@@ -85,8 +87,9 @@ sudo tee $HOME/.relayer/stride.json > /dev/null <<EOF
     "account-prefix": "stride",
     "keyring-backend": "test",
     "gas-adjustment": 1.2,
-    "gas-prices": "0.001ustrd",
-    "debug": true,
+    "gas-prices": "0.000ustrd",
+    "gas": 200000,
+    "trusting-period": "8h",
     "timeout": "20s",
     "output-format": "json",
     "sign-mode": "direct"
@@ -107,8 +110,9 @@ sudo tee $HOME/.relayer/gaia.json > /dev/null <<EOF
     "account-prefix": "cosmos",
     "keyring-backend": "test",
     "gas-adjustment": 1.2,
-    "gas-prices": "0.001uatom",
-    "debug": true,
+    "gas-prices": "0.000uatom",
+    "gas": 200000,
+    "trusting-period": "8h",
     "timeout": "20s",
     "output-format": "json",
     "sign-mode": "direct"
